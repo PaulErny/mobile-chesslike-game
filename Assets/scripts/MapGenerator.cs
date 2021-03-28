@@ -274,6 +274,13 @@ public class MapGenerator : MonoBehaviour
         RaiseObstacles();
     }
 
+    private static Vector3 GetMouseGridPos() {
+        Debug.Log("debug " + Input.mousePosition);
+        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        // pos.z = 0f;
+        return pos;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -311,16 +318,39 @@ public class MapGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A)) {
-            removeIsolated();
-        }
+        // if (Input.GetKeyDown(KeyCode.A)) {
+        //     removeIsolated();
+        // }
 
-        if (Input.GetKeyDown(KeyCode.Z)) {
-            addLayer();
-        }
+        // if (Input.GetKeyDown(KeyCode.Z)) {
+        //     addLayer();
+        // }
 
-        if (Input.GetKeyDown(KeyCode.E)) {
-            RemoveLayer();
+        // if (Input.GetKeyDown(KeyCode.E)) {
+        //     RemoveLayer();
+        // }
+        if (Input.GetMouseButtonDown(0)) {
+            // Debug.Log(GetMouseGridPos());
+
+            // Cast a ray from screen point
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            // Save the info
+            RaycastHit hit;
+            // You successfully hit
+            if (Physics.Raycast (ray, out hit)) {
+                // Find the direction to move in
+                // Vector3 dir = hit.point - transform.position;
+                
+                // Make it so that its only in x and y axis
+                // dir.z = 0; // No vertical movement
+                Debug.Log("grid " + hit.transform.name);
+                Debug.Log("pos " + hit.transform.position);
+                // Debug.Log(hit.)
+                // Now move your character in world space 
+                // transform.Translate (dir * Time.DeltaTime * speed, Space.World);
+                
+                // transform.Translate (dir * Time.DeltaTime * speed); // Try this if it doesn't work
+            }
         }
     }
 
