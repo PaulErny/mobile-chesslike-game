@@ -147,7 +147,14 @@ public class CharacterHandler : MonoBehaviour
                         Entity newEntity = newCell.contains;
                         if (newEntity != null) {
                             // TODO if ennemy -> attack
-                            if (newEntity.isPlacedByUser) { // * if friendy -> select instead of the current entity
+                            if (currentEntity == newEntity)
+                            { // * if newEntity == currentEntity -> de-select
+                                currentEntity.displayEntitySelector(false);
+                                currentEntity.displayMovementPattern(false);
+                                currentEntity.isClicked = false;
+                                currentEntity = null;
+                                currentCell = null;
+                            } else if (newEntity.isPlacedByUser) { // * if friendy -> select instead of the current entity
                                 currentEntity.displayEntitySelector(false);
                                 currentEntity.displayMovementPattern(false);
                                 currentEntity.isClicked = false;
@@ -157,12 +164,6 @@ public class CharacterHandler : MonoBehaviour
                                 newEntity.isClicked = true;
 
                                 currentEntity = newEntity;
-                            } else if (currentEntity == newEntity) { // * if newEntity == currentEntity -> de-select
-                                currentEntity.displayEntitySelector(false);
-                                currentEntity.displayMovementPattern(false);
-                                currentEntity.isClicked = false;
-                                currentEntity = null;
-                                currentCell = null;
                             }
                         } else {
                             // * move if the cell is within range
