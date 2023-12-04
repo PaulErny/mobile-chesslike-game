@@ -225,8 +225,10 @@ public class MapGenerator : MonoBehaviour
         foreach (Vector2 obstacle in addedObstacles) {
             isObstacles[(int)obstacle.y][(int)obstacle.x] = false;
         }
+        destroyVisibleObstacles();
         CreateShores(waterCells);
         CreateShores2();
+        visualizeObstacles();
         return (isRiver);
     }
 
@@ -264,21 +266,29 @@ public class MapGenerator : MonoBehaviour
             // if there are no rivers -> create different ground
             for (int z = 0; z < mapLength; z++) {
                 for (int x = 0; x < mapWidth; x++) {
-                    if (map[z][x].cellType.Equals("null") && isObstacles[z][x] == false)
+                    if (map[z][x].cellType.Equals("null") && isObstacles[z][x] == false) {
                         map[z][x].Instanciate( grass2, "grass2", new Vector3(2*x, 0, 2*z), Quaternion.identity );
-                    else if (map[z][x].cellType.Equals("null"))
+                    } else if (map[z][x].cellType.Equals("null")) {
                         map[z][x].Instanciate( grass1, "grass1", new Vector3(2*x, 0, 2*z), Quaternion.identity );
+                    }
                 }
             }
         }
         RaiseObstacles();
     }
 
-    private static Vector3 GetMouseGridPos() {
-        Debug.Log("debug " + Input.mousePosition);
-        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        // pos.z = 0f;
-        return pos;
+    // private static Vector3 GetMouseGridPos() {
+    //     Debug.Log("debug " + Input.mousePosition);
+    //     Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //     // pos.z = 0f;
+    //     return pos;
+    // }
+
+    public MapCells GetMapCells(Vector3 pos) {
+        if ((int)(pos.z / 2) > mapLength || (int)(pos.x / 2) > mapWidth) {
+            return null;
+        }
+        return this.map[(int)(pos.z / 2)][(int)(pos.x / 2)];
     }
 
     // Start is called before the first frame update
@@ -333,24 +343,24 @@ public class MapGenerator : MonoBehaviour
             // Debug.Log(GetMouseGridPos());
 
             // Cast a ray from screen point
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            // Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             // Save the info
-            RaycastHit hit;
+            // RaycastHit hit;
             // You successfully hit
-            if (Physics.Raycast (ray, out hit)) {
+            // if (Physics.Raycast (ray, out hit)) {
                 // Find the direction to move in
                 // Vector3 dir = hit.point - transform.position;
                 
                 // Make it so that its only in x and y axis
                 // dir.z = 0; // No vertical movement
-                Debug.Log("grid " + hit.transform.name);
-                Debug.Log("pos " + hit.transform.position);
+                // Debug.Log("grid " + hit.transform.name);
+                // Debug.Log("pos " + hit.transform.position);
                 // Debug.Log(hit.)
                 // Now move your character in world space 
                 // transform.Translate (dir * Time.DeltaTime * speed, Space.World);
                 
                 // transform.Translate (dir * Time.DeltaTime * speed); // Try this if it doesn't work
-            }
+            // }
         }
     }
 

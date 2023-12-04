@@ -18,12 +18,20 @@ public class MapCells
     {
         this.cellType = cellType.ToLower();
         cellObject = GameObject.Instantiate( original, pos, rotation );
+        Transform mark = cellObject.transform.Find("move");
+        if (mark) {
+            mark.gameObject.SetActive(false);
+        }
     }
 
     public void Instanciate(GameObject original, string cellType, Vector3 pos, Quaternion rotation)
     {
         this.cellType = cellType.ToLower();
         cellObject = GameObject.Instantiate( original, pos, rotation ) as GameObject;
+        Transform mark = cellObject.transform.Find("move");
+        if (mark) {
+            mark.gameObject.SetActive(false);
+        }
         // cellObject.Component
         // cellObject.GetComponent<Rigidbody>().detectCollisions = true;
     }
