@@ -15,7 +15,7 @@ public class Entity : MonoBehaviour
     }
     private bool m_isClicked = false;
     private MapGenerator map = null;
-    private MapCells currentCell = null;
+    public MapCells currentCell = null;
     private GameObject selector = null;
     private float movementSpeed = 12f;
     private short[,] movementPattern = new short[5,5] {{0, 1, 1, 1, 0}, 
@@ -109,6 +109,7 @@ public class Entity : MonoBehaviour
         StartCoroutine(move(newCell.cellObject.transform.position));
         currentCell.contains = null;
         newCell.contains = this;
+        currentCell = newCell;
     }
 
     IEnumerator move(Vector3 destination) {

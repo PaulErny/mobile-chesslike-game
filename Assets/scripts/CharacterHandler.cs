@@ -166,14 +166,14 @@ public class CharacterHandler : MonoBehaviour
                                 currentEntity = newEntity;
                             }
                         } else {
+                            currentEntity.displayEntitySelector(false);
+                            currentEntity.displayMovementPattern(false);
                             // * move if the cell is within range
                             if (currentCell != newCell && currentEntity.isInMovementRange(newCell)) {
                                 // * move
                                 currentEntity.moveTo(newCell);
                             }
                             // * deselect entity after moving / if click is out of range
-                            currentEntity.displayEntitySelector(false);
-                            currentEntity.displayMovementPattern(false);
                             currentEntity.isClicked = false;
                             currentEntity = null;
                             currentCell = null;
